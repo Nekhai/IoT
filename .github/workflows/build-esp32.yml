@@ -28,7 +28,7 @@ jobs:
           arduino-cli compile \
             --fqbn esp32:esp32:esp32 \
             --output-dir build \
-            ./src
+            ./examples
 
       - name: Upload compiled firmware
         uses: actions/upload-artifact@v4
