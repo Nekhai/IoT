@@ -1,0 +1,36 @@
+name: Compile Arduino Sketch and Save Artifact
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+
+      - name: Set up Arduino CLI
+        run: |
+          curl -fsSL
+            https://raw.githubusercontent.com/arduino/ardui
+            no-cli/master/install.sh | sh
+             ./bin/arduino-cli config init
+             ./bin/arduino-cli core update-index
+             ./bin/arduino-cli core install esp32:esp32
+
+      - name: Compile firmware
+        run: |
+          ./bin/arduino-cli compile \
+           --fqbn esp32:esp32:esp32 \
+           --output-dir build \
+           ./src
+
+      - name: Upload compiled firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: esp32-firmware-bin
+          path: build/**/*.bin
