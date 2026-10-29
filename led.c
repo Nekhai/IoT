@@ -36,3 +36,4 @@ void switchLed() {
     digitalWrite(orangeLed, (state == 2) ? HIGH : LOW);
     digitalWrite(greenLed,  (state == 3) ? HIGH : LOW);
 }
+
